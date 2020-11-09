@@ -1,54 +1,55 @@
 %{
+	#include <stdio.h>
 	#include "ass6_18CS10064_translator.h"
 	#include "y.tab.h"
 	extern void yyerror(const char *);
 	static void comment(void);
+	#include <math.h>
 %}
 
-DIGIT [0-9]
-NONZERODIG [1-9]
-IDENT_ND [A-Za-z_]
-IDENT ({IDENT_ND}({IDENT_ND}|{DIGIT})*)
-WHITESPACE [ \n\t]
-SIGN [+-]
-DIGIT_SEQ {DIGIT}+
-EXPONENT_PART ([eE]{SIGN}?{DIGIT_SEQ})
-ZERO "0"
-INT_CONST (({NONZERODIG}({DIGIT}*))|{ZERO}+)
-DOT "."
-FRACT_CONST (({DIGIT_SEQ}?{DOT}{DIGIT_SEQ})|({DIGIT_SEQ}{DOT}))
-FLOAT_CONST (({FRACT_CONST}{EXPONENT_PART}?)|({DIGIT_SEQ}{EXPONENT_PART}))
-ENUM_CONST {IDENT}
-ESC_SEQ ([\\][\'\"\?\\abfnrtv])
-C_CHAR [^\'\\\n]|{ESC_SEQ}
-C_CHAR_SEQ {C_CHAR}+
-C_CHAR_CONST (\'{C_CHAR_SEQ}\')
-CONST ({INT_CONST}|{FLOAT_CONST}|{ENUM_CONST}|{C_CHAR_CONST})
-S_CHAR [^\"\\\n]|{ESC_SEQ}
-S_CHAR_SEQ {S_CHAR}+
-STRING_LITERAL (\"{S_CHAR_SEQ}*\")
-SINGLE_COMMENT [/][/].*
-MULTI_END [\*]+[/]
-MULTI_START [/][\*]+
-NON_STAR (([^\*]).*)
-NON_FS ([^/].*)
-AVOID_MULTI_END (NON_STAR|([\*]{NON_FS}))
-MULTI_COMMENT ({MULTI_START}(([^\*])|((\*)+[^/\*]))*{MULTI_END})
-COMMENT {SINGLE_COMMENT}|{MULTI_COMMENT}
+digit 					[0-9]
+identifier-nondigit 	[_a-zA-Z]
+identifier 				(({identifier-nondigit}+)({digit}*))+
+
+nonzero-digit 			[1-9]
+integer-constant		{nonzero-digit}{digit}*|0
+
+sign					"+"|"-"
+digit-sequence 			{digit}+
+exponent-part		  	e({sign})?{digit-sequence}|E({sign})?{digit-sequence}
+fractional-constant 	({digit-sequence})?"."{digit-sequence}|{digit-sequence}"."
+floating-constant 		{fractional-constant}({exponent-part})?|{digit-sequence}{exponent-part}
+
+slash					[\\]
+singlequote				[\']
+doublequote				[\"]
+questionmark			[\?]
+escape-sequence 		{slash}{singlequote}|{slash}{doublequote}|{slash}{slash}|{slash}{questionmark}|"\\a"|"\\b"|"\\f"|"\\n"|"\\r"|"\\t"|"\\v"
+c-char 					{escape-sequence}|[^'\\\n]
+c-char-sequence			({c-char})+
+character-constant		\'{c-char-sequence}\'
+
+constant 				{integer-constant}|{floating-constant}|{character-constant}
+
+s-char					{escape-sequence}|[^"\\\n]
+s-char-sequence			({s-char})+
+string-literal			\"({s-char-sequence})?\"
+
+single-char-punctuator	"["|"]"|"."|"&"|"*"|"+"|"-"|"~"|"!"|"/"|"("|")"|"{"|"}"|"%"|","|"<"|">"|"^"|"|"|"="|"?"|":"|";"|"#"
+
+singleline-comments		\/\/(.*)
+multiline-comments 		\/\*(.|\n)*\*\/
+white-space 			[ \t\n]
 
 %%
 
-"auto"              {return AUTO;}
-"enum"              {return ENUM;}
-"restrict"          {return RESTRICT;} 
-"unsigned"          {return UNSIGNED;}
+"restrict"          {return RESTRICT;}
 "break"             {return BREAK;}
 "extern"            {return EXTERN;}
 "return"            {return RETURN;}
 "void"              {return VOID;}
 "char"              {return CHAR;}
 "for"              	{return FOR;}
-"signed"            {return SIGNED;}
 "while"             {return WHILE;}
 "const"             {return CONST;}
 "goto"              {return GOTO;}
@@ -57,85 +58,51 @@ COMMENT {SINGLE_COMMENT}|{MULTI_COMMENT}
 "float"             {return FLOAT;}
 "short"             {return SHORT;}
 "volatile"          {return VOLATILE;}
-"_Bool"             {return BOOL;}
 "continue"          {return CONTINUE;}
 "if"                {return IF;}
 "static"            {return STATIC;}
-"_Complex"          {return COMPLEX;}
 "default"           {return DEFAULT;}
 "inline"            {return INLINE;}
-"struct"            {return STRUCT;}
-"_Imaginary"        {return IMAGINARY;}
 "do"                {return DO;}
 "int"               {return INT;}
 "switch"            {return SWITCH;}
 "double"            {return DOUBLE;}
 "long"              {return LONG;}
-"typedef"           {return TYPEDEF;}
 "else"              {return ELSE;}
-"register"          {return REGISTER;}
-"union"             {return UNION;}
 
+{identifier}             	{ yylval.idl.name=new string(yytext);return IDENTIFIER;}
+{integer-constant}         	{ yylval.intval=atoi(yytext); return INTEGER_CONSTANT;}
+{floating-constant}			{ yylval.floatval=atof(yytext); return FLOATING_CONSTANT;}
+{character-constant}		{ yylval.charval=yytext[1]; return CHAR_CONST;}
+{string-literal}    		{ yylval.strval = new string(yytext);return STRING_LITERAL;}
 
-"["                 {return '[';  }
-"]"                 { return ']'; }
-"("                 { return '('; }
-")"                 { return ')'; }
-"{"                 { return '{'; }
-"}"                 { return '}'; }
-"."                 { return '.'; }
-"->"                { return (POINTER); }
-"++"                { return (INCREMENT); }
-"--"                { return (DECREMENT); }
-"&"                 { return '&'; }
-"*"                 { return '*'; }
-"+"                 { return '+'; }
-"-"                 { return '-'; }
-"~"                 { return '~'; }
-"!"                 { return '!'; }
-"/"                 { return '/'; }
-"%"                 { return '%'; }
-"<<"                { return (LEFT_SHIFT); }
-">>"                { return (RIGHT_SHIFT); }
-"<"                 { return '<'; }
-">"                 { return '>'; }
-"<="                { return (LESS_EQUALS); }
-">="                { return (GREATER_EQUALS); }
-"=="                { return (EQUALS); }
-"!="                { return (NOT_EQUALS); }
-"^"                 { return '^'; }
-"|"                 { return '|'; }
-"&&"                { return (AND); }
-"||"                { return (OR); }
-"?"                 { return '?'; }
-":"                 { return ':'; }
-";"                 { return ';'; }
-"..."               { return (ELLIPSIS); }
-"="                 { return '='; }
-"*="                { return MULTIPLY_ASSIGN; }
-"/="                { return DIVIDE_ASSIGN; }
-"%="                { return MODULO_ASSIGN; }
-"+="                { return ADD_ASSIGN; }
-"-="                { return SUBTRACT_ASSIGN; }
-"<<="               { return LEFT_SHIFT_ASSIGN; }
-">>="               { return RIGHT_SHIFT_ASSIGN; }
-"&="                { return AND_ASSIGN; }
-"^="                { return XOR_ASSIGN; }
-"|="                { return OR_ASSIGN; }
-","                 { return ','; }
-"#"                 { return '#'; }
+"->"                {return ARROW;}
+"++"                {return INCREMENT;}
+"--"                {return DECREMENT;}
+"<<"                {return LEFT_SHIFT;}
+">>"                {return RIGHT_SHIFT;}
+"<="                {return LSOE;}
+">="                {return GTOE;}
+"=="                {return IS_EQUAL;}
+"!="                {return NOT_EQUAL; }
+"&&"                {return AND; }
+"||"                {return OR; }
+"..."               {return TRIPLE_DOT; }
+"*="                {return MULTIPLY_EQUAL; }
+"/="				{return DIVIDE_EQUAL;}
+"%="				{return PERCENT_EQUAL;}
+"+="				{return PLUS_EQUAL;}
+"-="				{return MINUS_EQUAL;}
+"<<="				{return LEFT_SHIFT_EQUAL;}
+">>="				{return RIGHT_SHIFT_EQUAL;}
+"&="				{return AND_EQUAL;}
+"^="				{return HAT_EQUAL;}
+"|="				{return OR_EQUAL;}
 
-{COMMENT}           {;}
-
-{IDENT}             { yylval.idl.name=new string(yytext);return IDENTIFIER;}
-{INT_CONST}         { yylval.intval=atoi(yytext); return INTEGER_CONSTANT;}
-{FLOAT_CONST}		{ yylval.floatval=atof(yytext); return FLOATING_CONSTANT;}
-{ENUM_CONST}		{ return(ENUMERATION_CONSTANT);}
-{C_CHAR_CONST}		{ yylval.charval=yytext[1]; return CHAR_CONST;}
-{STRING_LITERAL}    { yylval.strval = new string(yytext);return STRING_LITERAL;}
-
-
-{WHITESPACE}        {;}
+{single-char-punctuator}	{return yytext[0];}
+{singleline-comments}       {;}
+{multiline-comments}        {;}
+{white-space}        		{;}
 
 %%
 int yywrap(){};

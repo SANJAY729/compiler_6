@@ -19,16 +19,15 @@
     list *nextlist;  //to define the nextlist type for N->(epsilon)
 }
 
-%token AUTO BREAK CASE CHAR CONST CONTINUE DEFAULT DO DOUBLE ELSE ENUM EXTERN
+%token AUTO BREAK CASE CHAR CONST CONTINUE DEFAULT DO DOUBLE ELSE EXTERN
 %token FLOAT FOR GOTO IF INLINE INT LONG REGISTER RESTRICT RETURN SHORT SIGNED SIZEOF STATIC STRUCT SWITCH
 %token TYPEDEF UNION UNSIGNED VOID VOLATILE WHILE BOOL COMPLEX IMAGINARY
-%token POINTER INCREMENT DECREMENT LEFT_SHIFT RIGHT_SHIFT LESS_EQUALS GREATER_EQUALS EQUALS NOT_EQUALS
-%token AND OR ELLIPSIS MULTIPLY_ASSIGN DIVIDE_ASSIGN MODULO_ASSIGN ADD_ASSIGN SUBTRACT_ASSIGN
-%token LEFT_SHIFT_ASSIGN RIGHT_SHIFT_ASSIGN AND_ASSIGN XOR_ASSIGN OR_ASSIGN SINGLE_LINE_COMMENT MULTI_LINE_COMMENT
+%token ARROW INCREMENT DECREMENT LEFT_SHIFT RIGHT_SHIFT LSOE GTOE IS_EQUAL NOT_EQUAL
+%token AND OR TRIPLE_DOT MULTIPLY_EQUAL DIVIDE_EQUAL PERCENT_EQUAL PLUS_EQUAL MINUS_EQUAL
+%token LEFT_SHIFT_EQUAL RIGHT_SHIFT_EQUAL AND_EQUAL HAT_EQUAL OR_EQUAL SINGLE_LINE_COMMENT MULTI_LINE_COMMENT
 %token <idl> IDENTIFIER  
 %token <intval> INTEGER_CONSTANT
 %token <floatval> FLOATING_CONSTANT
-%token <strval> ENUMERATION_CONSTANT
 %token <charval> CHAR_CONST
 %token <strval> STRING_LITERAL
 %type <expon> primary_expression postfix_expression unary_expression cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression AND_expression exclusive_OR_expression inclusive_OR_expression logical_AND_expression logical_OR_expression conditional_expression assignment_expression_opt assignment_expression constant_expression expression expression_statement expression_opt declarator direct_declarator initializer identifier_opt declaration init_declarator_list init_declarator_list_opt init_declarator
@@ -134,7 +133,7 @@ primary_expression:             IDENTIFIER {
                                                         $$ = $2;
                                                    };
 
-enumeration_constant:           IDENTIFIER {};
+
 
 postfix_expression :            primary_expression {
                                                          $$ = $1;
@@ -216,7 +215,7 @@ postfix_expression :            primary_expression {
                                                                                             $$.type = $$.loc->tp_n;
                                                                                          } |
                                 postfix_expression '.' IDENTIFIER {/*Struct Logic to be Skipped*/}|
-                                postfix_expression POINTER IDENTIFIER {
+                                postfix_expression ARROW IDENTIFIER {
                                                                             /*----*/
                                                                       } |
                                 postfix_expression INCREMENT {
@@ -490,7 +489,7 @@ relational_expression:          shift_expression {
                                                                                 glob_quad.emit(Q_IF_GREATER,$1.loc->name,$3.loc->name,"-1");
                                                                                 glob_quad.emit(Q_GOTO,"-1");
                                                                            }|
-                                relational_expression LESS_EQUALS shift_expression {
+                                relational_expression LSOE shift_expression {
                                                                                         typecheck(&$1,&$3);
                                                                                         $$.type = new type_n(tp_bool);
                                                                                         $$.truelist = makelist(next_instr);
@@ -498,7 +497,7 @@ relational_expression:          shift_expression {
                                                                                         glob_quad.emit(Q_IF_LESS_OR_EQUAL,$1.loc->name,$3.loc->name,"-1");
                                                                                         glob_quad.emit(Q_GOTO,"-1");
                                                                                     }|
-                                relational_expression GREATER_EQUALS shift_expression {
+                                relational_expression GTOE shift_expression {
                                                                                             typecheck(&$1,&$3);
                                                                                             $$.type = new type_n(tp_bool);
                                                                                             $$.truelist = makelist(next_instr);
@@ -510,7 +509,7 @@ relational_expression:          shift_expression {
 equality_expression:            relational_expression {
                                                             $$ = $1;
                                                       }|
-                                equality_expression EQUALS relational_expression {
+                                equality_expression IS_EQUAL relational_expression {
                                                                                         typecheck(&$1,&$3);
                                                                                         $$.type = new type_n(tp_bool);
                                                                                         $$.truelist = makelist(next_instr);
@@ -518,7 +517,7 @@ equality_expression:            relational_expression {
                                                                                         glob_quad.emit(Q_IF_EQUAL,$1.loc->name,$3.loc->name,"-1");
                                                                                         glob_quad.emit(Q_GOTO,"-1");
                                                                                  }|
-                                equality_expression NOT_EQUALS relational_expression {
+                                equality_expression NOT_EQUAL relational_expression {
                                                                                             typecheck(&$1,&$3);
                                                                                             $$.type = new type_n(tp_bool);
                                                                                             $$.truelist = makelist(next_instr);
@@ -604,16 +603,16 @@ conditional_expression:         logical_OR_expression {
                                                                                                         };
 
 assignment_operator:            '='                                                     |
-                                MULTIPLY_ASSIGN                                         |
-                                DIVIDE_ASSIGN                                           |
-                                MODULO_ASSIGN                                           |
-                                ADD_ASSIGN                                              |
-                                SUBTRACT_ASSIGN                                         |
-                                LEFT_SHIFT_ASSIGN                                       |
-                                RIGHT_SHIFT_ASSIGN                                      |
-                                AND_ASSIGN                                              |
-                                XOR_ASSIGN                                              |
-                                OR_ASSIGN                                               ;
+                                MULTIPLY_EQUAL                                         |
+                                DIVIDE_EQUAL                                           |
+                                PERCENT_EQUAL                                           |
+                                PLUS_EQUAL                                              |
+                                MINUS_EQUAL                                         |
+                                LEFT_SHIFT_EQUAL                                       |
+                                RIGHT_SHIFT_EQUAL                                      |
+                                AND_EQUAL                                              |
+                                HAT_EQUAL                                              |
+                                OR_EQUAL                                               ;
 
 assignment_expression:          conditional_expression {
                                                             $$ = $1;
@@ -749,8 +748,7 @@ type_specifier:                 VOID {
                                 UNSIGNED {}|
                                 BOOL {}|
                                 COMPLEX {}|
-                                IMAGINARY {}|
-                                enum_specifier {};
+                                IMAGINARY {}
 
 specifier_qualifier_list:       type_specifier specifier_qualifier_list_opt {
                                                                                 /*----------*/
@@ -760,9 +758,7 @@ specifier_qualifier_list:       type_specifier specifier_qualifier_list_opt {
 specifier_qualifier_list_opt:   specifier_qualifier_list {}|
                                 /*epsilon*/ {};
 
-enum_specifier:                 ENUM identifier_opt '{' enumerator_list '}' {}|
-                                ENUM identifier_opt '{' enumerator_list ',' '}' {}|
-                                ENUM IDENTIFIER {};
+
 
 identifier_opt:                 IDENTIFIER {
                                                 $$.loc  = curr_st->lookup(*$1.name);
@@ -771,11 +767,7 @@ identifier_opt:                 IDENTIFIER {
                                             }|
                                 /*epsilon*/ {};
 
-enumerator_list:                enumerator {}|
-                                enumerator_list ',' enumerator {};
 
-enumerator:                     enumeration_constant {}|
-                                enumeration_constant '=' constant_expression {};
 
 type_qualifier:                 CONST {}|
                                 RESTRICT {}|
@@ -1073,7 +1065,7 @@ type_qualifier_list:            type_qualifier {}|
 parameter_type_list:            parameter_list {
                                                     /*-------*/
                                                 }|
-                                parameter_list ',' ELLIPSIS {};
+                                parameter_list ',' TRIPLE_DOT {};
 
 parameter_list:                 parameter_declaration {
                                                             /*---------*/
