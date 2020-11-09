@@ -1,7 +1,7 @@
 #include "myl.h"
 #define MAX 50
 
-int prints(char *s)
+int printStr(char *s)
 {
     int bytes=0;
     while(s[bytes]!='\0')bytes++;
@@ -16,7 +16,7 @@ int prints(char *s)
 }
 
 
-int printi(int n)
+int printInt(int n)
 {
     char buff[MAX],zero='0';
     int i=0,j=0,bytes,k;
@@ -46,7 +46,7 @@ int printi(int n)
 	return bytes;
 }
 
-int readi (int* eP) {
+int readInt (int* eP) {
     int i=0;
     char str[10];
     int sign=1,val=0;

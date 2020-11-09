@@ -1,4 +1,4 @@
-#include "ass6_16CS10053_translator.h"
+#include "ass6_18CS10064_translator.h"
 #include "y.tab.h"
 
 extern quad_arr glob_quad;
@@ -637,7 +637,7 @@ void symtab::gen_internal_code(FILE *fp,int ret_count)
 				{	
 					fprintf(fp,"\n\tmovl\t%%eax, %d(%%rbp)",offr);
 				}
-				if(arg1x=="prints")
+				if(arg1x=="printStr")
 				{
 					fprintf(fp,"\n\taddq $8 , %%rsp");
 				}

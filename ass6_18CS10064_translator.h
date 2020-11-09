@@ -1,5 +1,5 @@
-#ifndef ASS6_16CS10053_TRANSLATOR_H
-#define ASS6_16CS10053_TRANSLATOR_H
+#ifndef ASS6_18CS10064_TRANSLATOR_H
+#define ASS6_18CS10064_TRANSLATOR_H
 
 #include <stdio.h>
 #include <vector>
@@ -143,7 +143,7 @@ public:
 	type_n *rettype;
 
 	funct(vector<types> tpls);
-	/* Prints details in suitable format */
+	/* printStrtr details in suitable format */
 	void print();
 };
 
