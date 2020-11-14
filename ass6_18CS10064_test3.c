@@ -1,27 +1,32 @@
-//Sum of Digits
-int sumOfDigits(int x)       // Recursive function that will return the sum 
+//Computation of GCD
+int GCD(int a, int b)       // Recursive function that will return the GCD 
 {
-    if((x/10)==0)
+    if(a == b)
     {
-        return x;
+        return a;
     }
-    else
+    if(a > b)
     {
-        return (sumOfDigits(x%10)+sumOfDigits(x/10));     // It will calculate the sum of the digits of the number.
+        return GCD(a-b,b);
+    }
+    if(b > a)
+    {
+        return GCD(a,b-a);
     }
 }
 
 int main()
 {
-    int n;
-    prints("++++++ Sum of Digit ++++++\n");
-    prints("Enter Integer\n"); 
-    int err=1;
-    n=readi(&err);
+    int a,b,err;
+    printStr("Computation of GCD\n");
+    printStr("Enter First Integer\n"); 
+    a = readInt(&err);
+    printStr("Enter Seconnd Integer\n");
+    b = readInt(&err);
     int s;
-    s = sumOfDigits(n);
-    prints("Sum of Digit: ");
-    printi(s);
-    prints("\n++++++++++\n");
+    s = GCD(a,b);
+    printStr("The GCD is: ");
+    printInt(s);
+    printStr("\n**********************************************\n");
     return 0;
 }

@@ -53,7 +53,7 @@ output.o: output.s myl.h
 run: 
 		
 	@./tinyc < ass6_18CS10064_test1.c > ass6_18CS10064_quad1.out
-	@echo " make run to execute all the test files at once"
+	@echo " make run to execute all the test files"
 	
 	@mv output.s ass6_18CS10064_test1.s
 	
@@ -84,8 +84,8 @@ run:
 	@make test5
 	@echo ""
 	@echo "Commands for Test Cases"
-	@echo "Test Case 1 : Calculate Interest    Command : ./test1"
-	@echo "Test Case 2 : Palindrome or Not     Command : ./test2"
-	@echo "Test Case 3 : Sum of Digits         Command : ./test3"
-	@echo "Test Case 4 : Longest Common Subse. Command : ./test4"
-	@echo "Test Case 5 : Merge Sort            Command : ./test5"
+	@echo "Test Case 1 : Product of 3 numbers                    Command : ./test1"
+	@echo "Test Case 2 : Factorial of number                     Command : ./test2"
+	@echo "Test Case 3 : GCD of 2 numbers                        Command : ./test3"
+	@echo "Test Case 4 : Largest Subarray Sum(Kadane Algorithm)  Command : ./test4"
+	@echo "Test Case 5 : Merge Sort                              Command : ./test5"

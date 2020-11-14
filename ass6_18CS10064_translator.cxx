@@ -746,19 +746,19 @@ void conv2Bool(expresn *e)
 
 int main()
 {
-	symdata *temp_printi=new symdata("printi");
+	symdata *temp_printi=new symdata("printInt");
 	temp_printi->tp_n=new type_n(tp_int);
 	temp_printi->var_type="func";
 	temp_printi->nest_tab=glob_st;
 	glob_st->symbol_tab.push_back(temp_printi);
 	
-	symdata *temp_readi=new symdata("readi");
+	symdata *temp_readi=new symdata("readInt");
 	temp_readi->tp_n=new type_n(tp_int);
 	temp_readi->var_type="func";
 	temp_readi->nest_tab=glob_st;
 	glob_st->symbol_tab.push_back(temp_readi);
 	
-	symdata *temp_prints=new symdata("prints");
+	symdata *temp_prints=new symdata("printStr");
 	temp_prints->tp_n=new type_n(tp_int);
 	temp_prints->var_type="func";
 	temp_prints->nest_tab=glob_st;

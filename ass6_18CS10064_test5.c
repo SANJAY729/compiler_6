@@ -50,22 +50,22 @@ int main()
 {
     int a[100],i,n;
 	int err=1;
-	prints("++++++++++++ Merge sort ++++++++++++\n");
-    prints("Enter the number of Elements\n");
-    n=readi(&err);
-	prints("Enter the elements of the array one by one i.e. use a new line for every element: \n"); 
+	printStr("Merge sort\n");
+    printStr("Enter the number of Elements\n");
+    n=readInt(&err);
+    printStr("Enter the elements of the first array (use new line for each element)\n");
     for(i=0;i<n;i++)
     {
-        a[i]=readi(&err);
+        a[i]=readInt(&err);
     }
 	merge_sort(a,0,n-1);
-	prints("The sorted elements are:\n");
+	printStr("The sorted elements are:\n");
     for(i=0;i<n;i++)
 	{
-		printi(a[i]);
-		prints("\n");
+		printInt(a[i]);
+		printStr("\n");
 	}
-	prints("\n++++++++++++++++++++\n");
+    printStr("\n**********************************************\n");
 	return 0;
 }
 

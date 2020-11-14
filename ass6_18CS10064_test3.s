@@ -1,172 +1,206 @@
 	.file	"output.s"
 
-.STR0:	.string "++++++ Sum of Digit ++++++\n"
-.STR1:	.string "Enter Integer\n"
-.STR2:	.string "Sum of Digit: "
-.STR3:	.string "\n++++++++++\n"
+.STR0:	.string "Computation of GCD\n"
+.STR1:	.string "Enter First Integer\n"
+.STR2:	.string "Enter Seconnd Integer\n"
+.STR3:	.string "The GCD is: "
+.STR4:	.string "\n**********************************************\n"
 	.text
-	.globl	sumOfDigits
-	.type	sumOfDigits, @function
-sumOfDigits:
+	.globl	GCD
+	.type	GCD, @function
+GCD:
 .LFB0:
 	pushq	%rbp
 	movq	%rsp, %rbp
-	subq	$44, %rsp
+	subq	$24, %rsp
 	movl	%edi, -4(%rbp)
-# 0:res = t000 
-	movl	$10, -8(%rbp)
-# 1:res = t001 arg1 = x arg2 = t000 
-	movl	-4(%rbp), %eax
-	cltd
-	idivl	-8(%rbp), %eax
-	movl	%eax, -12(%rbp)
-# 2:res = t002 
-	movl	$0, -16(%rbp)
-# 3:arg1 = t001 arg2 = t002 
-	movl	-12(%rbp), %eax
-	movl	-16(%rbp), %edx
+	movl	%esi, -8(%rbp)
+# 0:arg1 = a arg2 = b 
+	movl	-8(%rbp), %eax
+	movl	-4(%rbp), %edx
 	cmpl	%edx, %eax
 	je .L1
+# 1:
+	jmp .L2
+# 2:
+	jmp .L2
+# 3:res = a 
+.L1:
+	movl	-8(%rbp), %eax
+	jmp	.LRT0
 # 4:
 	jmp .L2
-# 5:
-	jmp	.LRT0
-# 6:res = x 
-.L1:
-	movl	-4(%rbp), %eax
-	jmp	.LRT0
-# 7:
-	jmp	.LRT0
-# 8:res = t003 
+# 5:arg1 = a arg2 = b 
 .L2:
-	movl	$10, -20(%rbp)
-# 9:res = t004 arg1 = x arg2 = t003 
-	movl	-4(%rbp), %eax
-	cltd
-	idivl	-20(%rbp), %eax
-	movl	%edx, -24(%rbp)
-# 10:res = t004 
-# 11:res = t005 
+	movl	-8(%rbp), %eax
+	movl	-4(%rbp), %edx
+	cmpl	%edx, %eax
+	jg .L3
+# 6:
+	jmp .L4
+# 7:
+	jmp .L4
+# 8:res = t000 arg1 = a arg2 = b 
+.L3:
+	movl	-8(%rbp), %eax
+	movl	-4(%rbp), %edx
+	subl	%edx, %eax
+	movl	%eax, -12(%rbp)
+# 9:res = t000 
+# 10:res = b 
+# 11:res = t001 
 	pushq %rbp
-	movl	-24(%rbp) , %edi
-	call	sumOfDigits
-	movl	%eax, -28(%rbp)
+	movl	-4(%rbp) , %edi
+	movl	-12(%rbp) , %esi
+	call	GCD
+	movl	%eax, -16(%rbp)
 	addq $0 , %rsp
-# 12:res = t006 
-	movl	$10, -32(%rbp)
-# 13:res = t007 arg1 = x arg2 = t006 
-	movl	-4(%rbp), %eax
-	cltd
-	idivl	-32(%rbp), %eax
-	movl	%eax, -36(%rbp)
-# 14:res = t007 
-# 15:res = t008 
-	pushq %rbp
-	movl	-36(%rbp) , %edi
-	call	sumOfDigits
-	movl	%eax, -40(%rbp)
-	addq $0 , %rsp
-# 16:res = t009 arg1 = t005 arg2 = t008 
-	movl	-28(%rbp), %eax
-	movl	-40(%rbp), %edx
-	addl	%edx, %eax
-	movl	%eax, -44(%rbp)
-# 17:res = t009 
-	movl	-44(%rbp), %eax
+# 12:res = t001 
+	movl	-16(%rbp), %eax
 	jmp	.LRT0
-# 18:
+# 13:
+	jmp .L4
+# 14:arg1 = b arg2 = a 
+.L4:
+	movl	-4(%rbp), %eax
+	movl	-8(%rbp), %edx
+	cmpl	%edx, %eax
+	jg .L5
+# 15:
+	jmp	.LRT0
+# 16:
+	jmp	.LRT0
+# 17:res = t002 arg1 = b arg2 = a 
+.L5:
+	movl	-4(%rbp), %eax
+	movl	-8(%rbp), %edx
+	subl	%edx, %eax
+	movl	%eax, -20(%rbp)
+# 18:res = a 
+# 19:res = t002 
+# 20:res = t003 
+	pushq %rbp
+	movl	-20(%rbp) , %edi
+	movl	-8(%rbp) , %esi
+	call	GCD
+	movl	%eax, -24(%rbp)
+	addq $0 , %rsp
+# 21:res = t003 
+	movl	-24(%rbp), %eax
+	jmp	.LRT0
+# 22:
 	jmp	.LRT0
 .LRT0:
-	addq	$-44, %rsp
+	addq	$-24, %rsp
 	movq	%rbp, %rsp
 	popq	%rbp
 	ret
 .LFE0:
-	.size	sumOfDigits, .-sumOfDigits
+	.size	GCD, .-GCD
 	.globl	main
 	.type	main, @function
 main:
 .LFB1:
 	pushq	%rbp
 	movq	%rsp, %rbp
-	subq	$64, %rsp
-# 19:
-.L3:
+	subq	$84, %rsp
+# 23:
+.L6:
 	movq	$.STR0,	%rdi
-# 20:res = t010 
+# 24:res = t004 
 	pushq %rbp
-	call	prints
-	movl	%eax, -8(%rbp)
-	addq $0 , %rsp
-# 21:
-	movq	$.STR1,	%rdi
-# 22:res = t011 
-	pushq %rbp
-	call	prints
-	movl	%eax, -12(%rbp)
-	addq $0 , %rsp
-# 23:res = t012 
-	movl	$1, -20(%rbp)
-# 24:res = err arg1 = t012 
-	movl	-20(%rbp), %eax
+	call	printStr
 	movl	%eax, -16(%rbp)
-# 25:res = t013 arg1 = err 
-	leaq	-16(%rbp), %rax
+	addq $8 , %rsp
+# 25:
+	movq	$.STR1,	%rdi
+# 26:res = t005 
+	pushq %rbp
+	call	printStr
+	movl	%eax, -20(%rbp)
+	addq $8 , %rsp
+# 27:res = t006 arg1 = err 
+	leaq	-12(%rbp), %rax
 	movq	%rax, -28(%rbp)
-# 26:res = t013 
-# 27:res = t014 
+# 28:res = t006 
+# 29:res = t007 
 	pushq %rbp
 	movq	-28(%rbp), %rdi
-	call	readi
+	call	readInt
 	movl	%eax, -32(%rbp)
 	addq $0 , %rsp
-# 28:res = n arg1 = t014 
+# 30:res = a arg1 = t007 
 	movl	-32(%rbp), %eax
 	movl	%eax, -4(%rbp)
-# 29:res = t015 arg1 = t014 
+# 31:res = t008 arg1 = t007 
 	movl	-32(%rbp), %eax
 	movl	%eax, -36(%rbp)
-# 30:res = n 
-# 31:res = t016 
-	pushq %rbp
-	movl	-4(%rbp) , %edi
-	call	sumOfDigits
-	movl	%eax, -44(%rbp)
-	addq $0 , %rsp
-# 32:res = s arg1 = t016 
-	movl	-44(%rbp), %eax
-	movl	%eax, -40(%rbp)
-# 33:res = t017 arg1 = t016 
-	movl	-44(%rbp), %eax
-	movl	%eax, -48(%rbp)
-# 34:
+# 32:
 	movq	$.STR2,	%rdi
-# 35:res = t018 
+# 33:res = t009 
 	pushq %rbp
-	call	prints
+	call	printStr
+	movl	%eax, -40(%rbp)
+	addq $8 , %rsp
+# 34:res = t010 arg1 = err 
+	leaq	-12(%rbp), %rax
+	movq	%rax, -48(%rbp)
+# 35:res = t010 
+# 36:res = t011 
+	pushq %rbp
+	movq	-48(%rbp), %rdi
+	call	readInt
 	movl	%eax, -52(%rbp)
 	addq $0 , %rsp
-# 36:res = s 
-# 37:res = t019 
-	pushq %rbp
-	movl	-40(%rbp) , %edi
-	call	printi
+# 37:res = b arg1 = t011 
+	movl	-52(%rbp), %eax
+	movl	%eax, -8(%rbp)
+# 38:res = t012 arg1 = t011 
+	movl	-52(%rbp), %eax
 	movl	%eax, -56(%rbp)
-	addq $0 , %rsp
-# 38:
-	movq	$.STR3,	%rdi
-# 39:res = t020 
+# 39:res = a 
+# 40:res = b 
+# 41:res = t013 
 	pushq %rbp
-	call	prints
-	movl	%eax, -60(%rbp)
+	movl	-8(%rbp) , %edi
+	movl	-4(%rbp) , %esi
+	call	GCD
+	movl	%eax, -64(%rbp)
 	addq $0 , %rsp
-# 40:res = t021 
-	movl	$0, -64(%rbp)
-# 41:res = t021 
+# 42:res = s arg1 = t013 
 	movl	-64(%rbp), %eax
+	movl	%eax, -60(%rbp)
+# 43:res = t014 arg1 = t013 
+	movl	-64(%rbp), %eax
+	movl	%eax, -68(%rbp)
+# 44:
+	movq	$.STR3,	%rdi
+# 45:res = t015 
+	pushq %rbp
+	call	printStr
+	movl	%eax, -72(%rbp)
+	addq $8 , %rsp
+# 46:res = s 
+# 47:res = t016 
+	pushq %rbp
+	movl	-60(%rbp) , %edi
+	call	printInt
+	movl	%eax, -76(%rbp)
+	addq $0 , %rsp
+# 48:
+	movq	$.STR4,	%rdi
+# 49:res = t017 
+	pushq %rbp
+	call	printStr
+	movl	%eax, -80(%rbp)
+	addq $8 , %rsp
+# 50:res = t018 
+	movl	$0, -84(%rbp)
+# 51:res = t018 
+	movl	-84(%rbp), %eax
 	jmp	.LRT1
 .LRT1:
-	addq	$-64, %rsp
+	addq	$-84, %rsp
 	movq	%rbp, %rsp
 	popq	%rbp
 	ret
