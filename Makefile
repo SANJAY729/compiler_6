@@ -1,15 +1,15 @@
 tinyc: y.tab.o lex.yy.o ass6_18CS10064_translator.o ass6_18CS10064_target_translator.o 
 	@g++ -g ass6_18CS10064_translator.o ass6_18CS10064_target_translator.o lex.yy.o y.tab.o  -o tinyc
-	@./tinyc < ass6_18CS10064_test1.c
+	@./tinyc < ass6_18CS10064_test1.c 
 	@./tinyc < ass6_18CS10064_test2.c 
 	@./tinyc < ass6_18CS10064_test3.c
 	@./tinyc < ass6_18CS10064_test4.c
 	@./tinyc < ass6_18CS10064_test5.c
-	@echo " make run to execute all the test files at once"
+	@echo " Please use \"make run\" command to run all test cases (you can see the above generated quads in seperate files)"
 lex.yy.c: ass6_18CS10064.l
 	@flex ass6_18CS10064.l
 y.tab.c: ass6_18CS10064.y
-	@yacc -dtv ass6_18CS10064.y
+	@yacc  -dtv ass6_18CS10064.y
 ass6_18CS10064_target_translator.o: ass6_18CS10064_target_translator.cxx
 	@g++ -g -c ass6_18CS10064_target_translator.cxx
 ass6_18CS10064_translator.o: ass6_18CS10064_translator.cxx
@@ -53,7 +53,6 @@ output.o: output.s myl.h
 run: 
 		
 	@./tinyc < ass6_18CS10064_test1.c > ass6_18CS10064_quad1.out
-	@echo " make run to execute all the test files"
 	
 	@mv output.s ass6_18CS10064_test1.s
 	
@@ -84,8 +83,8 @@ run:
 	@make test5
 	@echo ""
 	@echo "Commands for Test Cases"
-	@echo "Test Case 1 : Product of 3 numbers                    Command : ./test1"
-	@echo "Test Case 2 : Factorial of number                     Command : ./test2"
-	@echo "Test Case 3 : GCD of 2 numbers                        Command : ./test3"
-	@echo "Test Case 4 : Largest Subarray Sum(Kadane Algorithm)  Command : ./test4"
-	@echo "Test Case 5 : Merge Sort                              Command : ./test5"
+	@echo "Test Case 1 : Product of 3 numbers                    Use Command : ./test1"
+	@echo "Test Case 2 : Factorial of number                     Use Command : ./test2"
+	@echo "Test Case 3 : GCD of 2 numbers                        Use Command : ./test3"
+	@echo "Test Case 4 : Largest Subarray Sum(Kadane Algorithm)  Use Command : ./test4"
+	@echo "Test Case 5 : Merge Sort                              Use Command : ./test5"

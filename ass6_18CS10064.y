@@ -30,7 +30,7 @@
 %token <floatval> FLOATING_CONSTANT
 %token <charval> CHAR_CONST
 %token <strval> STRING_LITERAL
-%type <expon> primary_expression postfix_expression unary_expression cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression AND_expression exclusive_OR_expression inclusive_OR_expression logical_AND_expression logical_OR_expression conditional_expression assignment_expression_opt assignment_expression constant_expression expression expression_statement expression_opt declarator direct_declarator initializer identifier_opt declaration init_declarator_list init_declarator_list_opt init_declarator
+%type <expon> primary_expression postfix_expression unary_expression cast_expression multiplicative_expression additive_expression shift_expression relational_expression equality_expression AND_expression exclusive_OR_expression inclusive_OR_expression logical_AND_expression logical_OR_expression conditional_expression assignment_expression_opt assignment_expression constant_expression expression expression_statement expression_opt declarator direct_declarator initializer declaration init_declarator_list init_declarator_list_opt init_declarator
 %type <nextlist> block_item_list block_item statement labeled_statement compound_statement selection_statement iteration_statement jump_statement block_item_list_opt
 %type <argsl> argument_expression_list argument_expression_list_opt
 %type <decl> type_specifier declaration_specifiers specifier_qualifier_list type_name pointer pointer_opt
@@ -760,12 +760,7 @@ specifier_qualifier_list_opt:   specifier_qualifier_list {}|
 
 
 
-identifier_opt:                 IDENTIFIER {
-                                                $$.loc  = curr_st->lookup(*$1.name);
-                                                //printf("%s\n",(*$1.name).c_str());
-                                                $$.type = new type_n(glob_type->basetp);
-                                            }|
-                                /*epsilon*/ {};
+
 
 
 
