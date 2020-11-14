@@ -1,0 +1,114 @@
+******************************************************************************
+
+Quads generated for the program
+  0. :if  a ==b	goto 3
+  1. :goto 5
+  2. :goto 5
+  3. :return	a
+  4. :goto 5
+  5. :if  a >b	goto 8
+  6. :goto 14
+  7. :goto 14
+  8. :t000	=	a - b
+  9. :param	t000
+ 10. :param	b
+ 11. :t001	=	call GCD, 2
+ 12. :return	t001
+ 13. :goto 14
+ 14. :if  b >a	goto 17
+ 15. :goto -1
+ 16. :goto 23
+ 17. :t002	=	b - a
+ 18. :param	a
+ 19. :param	t002
+ 20. :t003	=	call GCD, 2
+ 21. :return	t003
+ 22. :goto -1
+ 23. :param	_0
+ 24. :t004	=	call printStr, 1
+ 25. :param	_1
+ 26. :t005	=	call printStr, 1
+ 27. :t006	=	& err
+ 28. :param	t006
+ 29. :t007	=	call readInt, 1
+ 30. :a	=	t007
+ 31. :t008	=	t007
+ 32. :param	_2
+ 33. :t009	=	call printStr, 1
+ 34. :t010	=	& err
+ 35. :param	t010
+ 36. :t011	=	call readInt, 1
+ 37. :b	=	t011
+ 38. :t012	=	t011
+ 39. :param	a
+ 40. :param	b
+ 41. :t013	=	call GCD, 2
+ 42. :s	=	t013
+ 43. :t014	=	t013
+ 44. :param	_3
+ 45. :t015	=	call printStr, 1
+ 46. :param	s
+ 47. :t016	=	call printInt, 1
+ 48. :param	_4
+ 49. :t017	=	call printStr, 1
+ 50. :t018	=	0
+ 51. :return	t018
+*******************************************************************************
+Symbol tables for the Program
+************************************* Global ******************************************
+Offset = 0
+Start Quad Index = 0
+End Quad Index =  0
+Name	Value	var_type	size	Offset	Type
+
+printInt	null	func		0	-1	ptr-to-St( Global )Int
+readInt	null	func		0	-1	ptr-to-St( Global )Int
+printStr	null	func		0	-1	ptr-to-St( Global )Int
+GCD	null	func		0	-1	ptr-to-St( GCD )Int
+main	null	func		0	-1	ptr-to-St( main )Int
+
+*****************************************************************************************
+******************************************************************************
+************************************* GCD ******************************************
+Offset = -24
+Start Quad Index = 0
+End Quad Index =  22
+Name	Value	var_type	size	Offset	Type
+
+retVal	null	return		4	0	Int
+a	null	param		4	-8	Int
+b	null	param		4	-4	Int
+t000	null	temp		4	-12	Int
+t001	null	temp		4	-16	Int
+t002	null	temp		4	-20	Int
+t003	null	temp		4	-24	Int
+
+*****************************************************************************************
+************************************* main ******************************************
+Offset = -84
+Start Quad Index = 23
+End Quad Index =  51
+Name	Value	var_type	size	Offset	Type
+
+retVal	null	return		4	0	Int
+a	null	local		4	-4	Int
+b	null	local		4	-8	Int
+err	null	local		4	-12	Int
+t004	null	temp		4	-16	Int
+t005	null	temp		4	-20	Int
+t006	null	temp		8	-28	ptr(Int)
+t007	null	temp		4	-32	Int
+t008	null	temp		4	-36	Int
+t009	null	temp		4	-40	Int
+t010	null	temp		8	-48	ptr(Int)
+t011	null	temp		4	-52	Int
+t012	null	temp		4	-56	Int
+s	null	local		4	-60	Int
+t013	null	temp		4	-64	Int
+t014	null	temp		4	-68	Int
+t015	null	temp		4	-72	Int
+t016	null	temp		4	-76	Int
+t017	null	temp		4	-80	Int
+t018	0	temp		4	-84	Int
+
+*****************************************************************************************

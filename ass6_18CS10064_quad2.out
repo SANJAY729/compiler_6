@@ -1,0 +1,83 @@
+******************************************************************************
+
+Quads generated for the program
+  0. :param	_0
+  1. :t000	=	call printStr, 1
+  2. :param	_1
+  3. :t001	=	call printStr, 1
+  4. :t002	=	& err
+  5. :param	t002
+  6. :t003	=	call readInt, 1
+  7. :n	=	t003
+  8. :t004	=	t003
+  9. :t005	=	1
+ 10. :ans	=	t005
+ 11. :t006	=	t005
+ 12. :t007	=	1
+ 13. :i	=	t007
+ 14. :t008	=	t007
+ 15. :if  i <=n	goto 18
+ 16. :goto 26
+ 17. :goto 26
+ 18. :t009	=	ans * i
+ 19. :ans	=	t009
+ 20. :t010	=	t009
+ 21. :t011	=	1
+ 22. :t012	=	i + t011
+ 23. :i	=	t012
+ 24. :t013	=	t012
+ 25. :goto 15
+ 26. :param	_2
+ 27. :t014	=	call printStr, 1
+ 28. :param	ans
+ 29. :t015	=	call printInt, 1
+ 30. :param	_3
+ 31. :t016	=	call printStr, 1
+ 32. :t017	=	0
+ 33. :return	t017
+*******************************************************************************
+Symbol tables for the Program
+************************************* Global ******************************************
+Offset = 0
+Start Quad Index = 0
+End Quad Index =  0
+Name	Value	var_type	size	Offset	Type
+
+printInt	null	func		0	-1	ptr-to-St( Global )Int
+readInt	null	func		0	-1	ptr-to-St( Global )Int
+printStr	null	func		0	-1	ptr-to-St( Global )Int
+main	null	func		0	-1	ptr-to-St( main )Int
+
+*****************************************************************************************
+******************************************************************************
+************************************* main ******************************************
+Offset = -92
+Start Quad Index = 0
+End Quad Index =  33
+Name	Value	var_type	size	Offset	Type
+
+retVal	null	return		4	0	Int
+n	null	local		4	-4	Int
+ans	null	local		4	-8	Int
+i	null	local		4	-12	Int
+err	null	local		4	-16	Int
+t000	null	temp		4	-20	Int
+t001	null	temp		4	-24	Int
+t002	null	temp		8	-32	ptr(Int)
+t003	null	temp		4	-36	Int
+t004	null	temp		4	-40	Int
+t005	1	temp		4	-44	Int
+t006	null	temp		4	-48	Int
+t007	1	temp		4	-52	Int
+t008	null	temp		4	-56	Int
+t009	null	temp		4	-60	Int
+t010	null	temp		4	-64	Int
+t011	1	temp		4	-68	Int
+t012	null	temp		4	-72	Int
+t013	null	temp		4	-76	Int
+t014	null	temp		4	-80	Int
+t015	null	temp		4	-84	Int
+t016	null	temp		4	-88	Int
+t017	0	temp		4	-92	Int
+
+*****************************************************************************************

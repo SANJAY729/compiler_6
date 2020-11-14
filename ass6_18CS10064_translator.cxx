@@ -328,7 +328,7 @@ void symtab::update(symdata *sm,type_n *type,basic_val initval,symtab *next)
 
 void symtab::print()
 {
-	printf("++++++++++++++++++++++++++++++++++++++++ %s ++++++++++++++++++++++++++++++++++++++++\n",name.c_str());
+	printf("************************************* %s ******************************************\n",name.c_str());
 	printf("Offset = %d\nStart Quad Index = %d\nEnd Quad Index =  %d\n",offset,start_quad,end_quad);
 	printf("Name\tValue\tvar_type\tsize\tOffset\tType\n\n");
     for(int i = 0; i<(symbol_tab).size(); i++)
@@ -356,7 +356,7 @@ void symtab::print()
 		printf("\n");
 	}
 	printf("\n");
-	printf("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n");
+	printf("*****************************************************************************************\n");
 }
 list* makelist(int i)
 {
@@ -765,15 +765,15 @@ int main()
 	glob_st->symbol_tab.push_back(temp_prints);
 	yyparse();
 	glob_st->name="Global";
-	printf("==============================================================================");
-	printf("\nGenerated Quads for the program\n");
+	printf("******************************************************************************\n");
+	printf("\nQuads generated for the program\n");
 	glob_quad.print();
-	printf("==============================================================================\n");
-	printf("Symbol table Maintained For the Given Program\n");
+	printf("*******************************************************************************\n");
+	printf("Symbol tables for the Program\n");
 	glob_st->print();
 	set<string> setty;
 	setty.insert("Global");
-	printf("=============================================================================\n");
+	printf("******************************************************************************\n");
 	FILE *fp;
 	fp = fopen("output.s","w");
 	fprintf(fp,"\t.file\t\"output.s\"\n");

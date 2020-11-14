@@ -24,7 +24,7 @@ libass2_18CS10064.a: ass2_18CS10064.o
 ass2_18CS10064.o: ass2_18CS10064.c myl.h
 	@gcc -Wall  -c ass2_18CS10064.c
 clean:
-	@rm test1 test2 test3 test4 test5 lex.yy.c y.tab.h y.output y.tab.c lex.yy.o y.tab.o ass2_18CS10064.o ass6_18CS10064_translator.o ass6_18CS10064_target_translator.o ass6_18CS10064_quad1.out ass6_18CS10064_quad2.out ass6_18CS10064_quad3.out ass6_18CS10064_quad4.out ass6_18CS10064_quad5.out tinyc
+	@rm test1 test2 test3 test4 test5 lex.yy.c y.tab.h y.output y.tab.c lex.yy.o y.tab.o ass2_18CS10064.o ass6_18CS10064_translator.o ass6_18CS10064_target_translator.o tinyc
 
 
 # test1: ass6_18CS10064_test1.o libass2_18CS10064.a
